@@ -13,13 +13,13 @@ A Python library for storing market data 🐍💾
 #### uv
 
 ```bash
-uv add git+https://github.com/fburleson/systrade.git
+uv add git+https://github.com/fburleson/tradedb.git
 ```
 
 #### pip
 
 ```bash
-pip install git+https://github.com/fburleson/systrade.git
+pip install git+https://github.com/fburleson/tradedb.git
 ```
 
 ## Usage
