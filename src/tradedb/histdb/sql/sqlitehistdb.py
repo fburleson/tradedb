@@ -62,7 +62,6 @@ class SqliteChart(DBChart["SqliteHistDB"]):
         data["timestamp"] = pd.to_datetime(data["timestamp"], unit="us", utc=True)
         data.set_index("timestamp", inplace=True)
         data.index.name = "datetime"
-        data.index.freq = self.timeframe  # type: ignore
         return data.astype("float64")
 
 
