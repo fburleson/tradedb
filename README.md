@@ -31,9 +31,9 @@ from tradedb import SqliteHistDB
 
 
 def main():
-    db = SqliteHistDB("data.db")
-    min15 = db.chart("EURUSD", timedelta(minutes=15))
-    print(min15[-100:])
+    with SqliteHistDB("data.db") as db:
+        min15 = db.chart("EURUSD", timedelta(minutes=15))
+        last_100_candles = min15[-100:]
 
 
 if __name__ == "__main__":
