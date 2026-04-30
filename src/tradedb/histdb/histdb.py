@@ -23,20 +23,7 @@ class DBChart[T: "HistDB"](ABC):
 
     @abstractmethod
     def insert(self, data: pd.DataFrame):
-        freq = data.index.freq  # type: ignore
-        if freq is None:
-            try:
-                freq = pd.infer_freq(data.index)  # type: ignore
-            except ValueError:
-                freq = None
-        if freq is None:
-            raise ValueError(
-                "The timeframe of the data could not be inferred or found."
-            )
-        if pd.to_timedelta(freq) != self.timeframe:
-            raise ValueError(
-                "The timeframe of the data does not equal that of the chart."
-            )
+        pass
 
     @property
     def db(self) -> T:

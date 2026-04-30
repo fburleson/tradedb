@@ -1,6 +1,6 @@
 [project]
 name = "tradedb"
-version = "0.1.0.dev3"
+version = "0.1.1.dev1"
 description = "A Python library for storing market data 🐍💾"
 readme = "README.md"
 authors = [
