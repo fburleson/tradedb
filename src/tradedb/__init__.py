@@ -1,2 +1,1 @@
-def hello() -> str:
-    return "Hello from tradedb!"
+from .histdb import SqliteHistDB as SqliteHistDB
