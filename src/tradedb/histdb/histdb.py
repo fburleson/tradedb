@@ -25,7 +25,10 @@ class DBChart[T: "HistDB"](ABC):
     def insert(self, data: pd.DataFrame):
         freq = data.index.freq  # type: ignore
         if freq is None:
-            freq = pd.infer_freq(data.index)  # type: ignore
+            try:
+                freq = pd.infer_freq(data.index)  # type: ignore
+            except ValueError:
+                freq = None
         if freq is None:
             raise ValueError(
                 "The timeframe of the data could not be inferred or found."
