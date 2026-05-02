@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -9,7 +9,13 @@ from tradedb.histdb.sql.model import DB_PROXY, create_model
 
 
 class SqliteChart(DBChart["SqliteHistDB"]):
-    def __init__(self, db: "SqliteHistDB", symbol: str, timeframe: timedelta):
+    def __init__(
+        self,
+        db: "SqliteHistDB",
+        symbol: str,
+        timeframe: timedelta,
+        tz: timezone = timezone.utc,
+    ):
         super().__init__(db, symbol, timeframe)
         self._table = create_model(timeframe)
         self.db._conn.create_tables([self._table])
@@ -60,6 +66,7 @@ class SqliteChart(DBChart["SqliteHistDB"]):
             columns=["timestamp", "open", "high", "low", "close", "volume"],
         )
         data["timestamp"] = pd.to_datetime(data["timestamp"], unit="us", utc=True)
+        data["timestamp"] = data["timestamp"].dt.tz_convert(self._tz)
         data.set_index("timestamp", inplace=True)
         data.index.name = "datetime"
         return data.astype("float64")
@@ -75,5 +82,7 @@ class SqliteHistDB(HistDB[SqliteChart]):
     def __exit__(self, exc_type, exc, tb):
         self._conn.close()
 
-    def chart(self, symbol: str, timeframe: timedelta) -> SqliteChart:
-        return SqliteChart(self, symbol, timeframe)
+    def chart(
+        self, symbol: str, timeframe: timedelta, tz: timezone = timezone.utc
+    ) -> SqliteChart:
+        return SqliteChart(self, symbol, timeframe, tz)
