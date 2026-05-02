@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import timedelta
+from datetime import timedelta, timezone
 from pathlib import Path
 from typing import Self
 
@@ -9,10 +9,13 @@ from tradedb._dev.util import create_repr
 
 
 class DBChart[T: "HistDB"](ABC):
-    def __init__(self, db: T, symbol: str, timeframe: timedelta):
+    def __init__(
+        self, db: T, symbol: str, timeframe: timedelta, tz: timezone = timezone.utc
+    ):
         self._db: T = db
         self._symbol: str = symbol
         self._timeframe: timedelta = timeframe
+        self._tz: timezone = tz
 
     def __repr__(self) -> str:
         return create_repr(self, DBChart.symbol, DBChart.timeframe)
