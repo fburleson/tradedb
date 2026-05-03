@@ -16,7 +16,7 @@ class SqliteChart(DBChart["SqliteHistDB"]):
         timeframe: timedelta,
         tz: timezone = timezone.utc,
     ):
-        super().__init__(db, symbol, timeframe)
+        super().__init__(db, symbol, timeframe, tz)
         self._table = create_model(timeframe)
         self.db._conn.create_tables([self._table])
         self._query = self._table.select(
