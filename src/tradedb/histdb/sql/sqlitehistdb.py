@@ -33,6 +33,8 @@ class SqliteChart(DBChart["SqliteHistDB"]):
 
     def insert(self, data: pd.DataFrame):
         super().insert(data)
+        if data.empty:
+            return
         data = data.assign(symbol=lambda _: self.symbol)
         data["timestamp"] = data.index.tz_convert("UTC").view("int64")  # type: ignore
         with self.db._conn.atomic():
